@@ -3,33 +3,35 @@ package main
 import "fmt"
 
 func isValidSudoku(board [][]byte) bool {
-	row := [9][9]int{}
-	col := [9][9]int{}
-	box := [9][9]int{}
+	const boxLen = 9
+	row := [boxLen][boxLen]int{}
+	col := [boxLen][boxLen]int{}
+	box := [boxLen][boxLen]int{}
 
-	for c := 0; c < 9; c++ {
-		for r := 0; r < 9; r++ {
+	for c := 0; c < boxLen; c++ {
+		for r := 0; r < boxLen; r++ {
 			val := board[r][c]
 
 			if val != '.' {
+				valInSet := val - 1
 				// check column
-				if col[c][val-1] == 1 {
+				if col[c][valInSet] == 1 {
 					return false
 				}
-				col[c][val-1] = 1
+				col[c][valInSet] = 1
 
 				// check row
-				if row[r][val-1] == 1 {
+				if row[r][valInSet] == 1 {
 					return false
 				}
-				row[r][val-1] = 1
+				row[r][valInSet] = 1
 
 				// check box
 				boxIndex := (r/3)*3 + c/3 // box index = row * rowSize + col
-				if box[boxIndex][val-1] == 1 {
+				if box[boxIndex][valInSet] == 1 {
 					return false
 				}
-				box[boxIndex][val-1] = 1
+				box[boxIndex][valInSet] = 1
 			}
 		}
 	}
